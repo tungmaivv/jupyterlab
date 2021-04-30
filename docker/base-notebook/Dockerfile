@@ -10,7 +10,7 @@ ARG BASE_CONTAINER=$ROOT_CONTAINER
 FROM $BASE_CONTAINER
 
 LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
-ARG NB_USER="tungvm"
+ARG NB_USER="jovyan"
 ARG NB_UID="1000"
 ARG NB_GID="100"
 
@@ -81,7 +81,7 @@ RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashr
    # Add call to conda init script see https://stackoverflow.com/a/58081608/4413446
    echo 'eval "$(command conda shell.bash hook 2> /dev/null)"' >> /etc/skel/.bashrc
 
-# Create NB_USER with name tungvm user with UID=1000 and in the 'users' group
+# Create NB_USER with name jovyan user with UID=1000 and in the 'users' group
 # and make sure these dirs are writable by the `users` group.
 RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     sed -i.bak -e 's/^%admin/#%admin/' /etc/sudoers && \
@@ -100,7 +100,7 @@ ARG PYTHON_VERSION=default
 RUN mkdir "/home/$NB_USER/work" && \
     fix-permissions "/home/$NB_USER"
 
-# Install tungvm as jovyan and check the sha256 sum provided on the download site
+# Install conda as jovyan and check the sha256 sum provided on the download site
 WORKDIR /tmp
 
 # Prerequisites installation: conda, mamba, pip, tini
